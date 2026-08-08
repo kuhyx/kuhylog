@@ -18,10 +18,15 @@ First cut. Everything below is verified by `tool/verify.sh`.
   with Benjamini-Hochberg correction and a minimum sample size.
 - Three-tab interface: track board, timeline, stats; capture sheet,
   tracker editor and a text-in/text-out data page.
+- Quick-capture bridge over one method channel, plus an Android
+  home-screen widget and quick-settings tile that use it.
 
 ### Known gaps
 - The Nomie importer is written against published documentation, not a
   byte-verified specification. Validate it against a real export.
-- No home-screen widget, quick-settings tile or notification actions
-  yet; these are the highest-value next step for capture friction.
-- `flutter build apk` has never been run against this tree.
+- `flutter build apk` has never been run against this tree, so every
+  Kotlin file and XML resource under `android/` is unverified — the
+  widget and tile included. See `doc/quick-capture.md`.
+- A widget tap forwards through `MainActivity` rather than recording
+  headlessly, so it briefly opens the app.
+- No notification actions yet.

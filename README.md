@@ -72,6 +72,19 @@ Even so, daily self-tracking is autocorrelated, which inflates
 significance beyond what the correction handles. Output is a hypothesis
 worth testing, never evidence. The interface says so on screen.
 
+## Quick capture
+
+A home-screen widget and a quick-settings tile record without navigating
+the app, because friction is what kills a habit tracker. Both talk to
+Dart over one method channel; the payload is primitives only, already
+formatted, so the Kotlin side never computes or rounds anything.
+
+The **Dart half is fully covered**; the **Kotlin half has never been
+compiled**. A widget tap currently forwards through `MainActivity`
+rather than running headlessly — a deliberate simple-first compromise.
+`doc/quick-capture.md` has the wire protocol, the exact list of
+unverified files, and the upgrade path to a real headless capture.
+
 ## Data in and out
 
 No cloud, no account, no file picker: the Data screen is text in, text
@@ -138,8 +151,8 @@ flutter run                 # needs an Android SDK
 | Analyzer | `flutter analyze --fatal-infos --fatal-warnings` |
 | Coverage | `tool/coverage.sh` — fails on a single uncovered line, and on any `lib/` file missing from the report entirely |
 
-Verified on Flutter 3.44.9 / Dart 3.12.2: **266 tests, 1614/1614 lines
-(100.00%) across 40 files**, analyzer clean.
+Verified on Flutter 3.44.9 / Dart 3.12.2: **281 tests, 1669/1669 lines
+(100.00%) across 41 files**, analyzer clean.
 
 The coverage gate was confirmed to bite: adding one unreachable branch
 made it exit 1 and name the file and line numbers.
@@ -151,16 +164,21 @@ sandbox it was written in had no Android SDK. The `android` job in CI is
 the first place that happens. Until it goes green, treat the Android
 build as unproven.
 
+That covers **every Kotlin file and XML resource** under `android/`,
+including the widget, the tile and the manifest entries added for them.
+Their XML was checked to be well-formed; nothing more. See
+`doc/quick-capture.md` for the exact list.
+
 ## Roadmap, in value order
 
-1. **Home-screen widget** (`home_widget`) and a **quick-settings tile**
-   for one-tap capture without opening the app. Friction is what kills
-   habit trackers, and this is the whole reason to be native rather than
-   a PWA.
-2. **Notification actions** (`flutter_local_notifications`) so a
+1. **Get the `android` CI job green**, which is the first real test of
+   the widget, the tile and the manifest.
+2. **Headless capture** so a widget tap does not open the app — the
+   upgrade path is written out in `doc/quick-capture.md`.
+3. **Notification actions** (`flutter_local_notifications`) so a
    reminder can be answered from the shade.
-3. Validate the Nomie importer against a real export.
-4. Optional CouchDB-shaped sync, matching what Nomie 6 does, so the
+4. Validate the Nomie importer against a real export.
+5. Optional CouchDB-shaped sync, matching what Nomie 6 does, so the
    phone and a self-hosted server can share history.
 
 ## Licence
