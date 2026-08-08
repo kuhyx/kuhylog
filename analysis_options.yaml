@@ -1,0 +1,42 @@
+# Strictest practical configuration.
+#   * very_good_analysis  - ~200 lints, superset of flutter_lints
+#   * strict-casts        - no implicit downcasts from dynamic
+#   * strict-inference    - no silently-inferred dynamic
+#   * strict-raw-types    - no raw generic types
+# CI runs `flutter analyze --fatal-infos --fatal-warnings`, so every
+# entry below is build-breaking.
+include: package:very_good_analysis/analysis_options.10.3.0.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  errors:
+    todo: error
+    deprecated_member_use: error
+    deprecated_member_use_from_same_package: error
+    unused_element: error
+    unused_field: error
+    unused_import: error
+    unused_local_variable: error
+    dead_code: error
+  exclude:
+    - android/**
+    - build/**
+    - coverage/**
+
+linter:
+  rules:
+    # Additions on top of very_good_analysis.
+    avoid_slow_async_io: true
+    cancel_subscriptions: true
+    close_sinks: true
+    comment_references: true
+    literal_only_boolean_expressions: true
+    no_adjacent_strings_in_list: true
+    prefer_final_in_for_each: true
+    prefer_final_locals: true
+    test_types_in_equals: true
+    throw_in_finally: true
+    unnecessary_statements: true

@@ -1,0 +1,23 @@
+name: kuhylog
+description: >-
+  Local-first life tracker: arbitrary trackers, people and context captured as
+  one plain-text note per event. A clean-room reimplementation of the Nomie 5
+  capture model with a Nomie backup/CSV importer.
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path_provider: ^2.1.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^10.0.0
+
+flutter:
+  uses-material-design: true
