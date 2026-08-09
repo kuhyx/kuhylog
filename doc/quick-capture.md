@@ -84,12 +84,19 @@ not-implemented path, republishing on change, and detaching.
   `res/xml/widget_quick_capture_info.xml`
 - the `receiver` and `service` blocks in `AndroidManifest.xml`
 
-They have never been compiled. The sandbox this repository was written
-in had no Android SDK, so `flutter build apk` was never run. The XML
-files were checked to be well-formed and nothing more — that says
-nothing about whether the attributes are valid. The `android` job in CI
-is the first place any of it is exercised; until that job is green,
-assume it is broken.
+They were written in a sandbox with no Android SDK, so `flutter build
+apk` was not run until 2026-08-09. It now compiles clean, and the
+quick-settings tile has been exercised on a real device (Pixel 6a,
+API 36): tapping it collapses the panel and opens `MainActivity` with
+no crash.
+
+Two caveats on how far that goes. Tapping the tile is the only path
+verified on hardware — the home-screen widget, and both directions of
+the method channel (`render` out, `logTracker` in), are still only
+covered by the Dart-side tests. And the tile needed a fix to get there:
+`startActivityAndCollapse(Intent)` throws `UnsupportedOperationException`
+from API 34 on, so it now wraps the intent in a `PendingIntent` above
+that level.
 
 ## The shortcut currently taken
 

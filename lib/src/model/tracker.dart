@@ -13,7 +13,9 @@ enum TrackerType {
   /// A bounded slider between [Tracker.min] and [Tracker.max].
   range,
 
-  /// A stopwatch; the recorded value is a duration in seconds.
+  /// A duration entry; the recorded value is a duration in seconds.
+  ///
+  /// Entered as a number or as `h:mm:ss`, not run as a live stopwatch.
   timer,
 
   /// A choice from [Tracker.options]; the value is the chosen index.

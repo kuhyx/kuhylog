@@ -1,6 +1,8 @@
 package dev.kuhy.kuhylog
 
+import android.app.PendingIntent
 import android.content.Intent
+import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 
@@ -32,6 +34,22 @@ class QuickCaptureTile : TileService() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or
                 Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
-        startActivityAndCollapse(intent)
+        // The Intent overload of startActivityAndCollapse throws
+        // UnsupportedOperationException from API 34 on, so wrap it. The
+        // PendingIntent must be mutable: the system fills in the launch
+        // display before dispatching it.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startActivityAndCollapse(
+                PendingIntent.getActivity(
+                    applicationContext,
+                    tag.hashCode(),
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or
+                        PendingIntent.FLAG_MUTABLE,
+                ),
+            )
+        } else {
+            startActivityAndCollapse(intent)
+        }
     }
 }

@@ -213,6 +213,9 @@ class AppState extends ChangeNotifier {
   String exportTimeCsv() =>
       Exporter.toTimeCsv(store.trackers, store.allEntries);
 
+  /// Renders the tag-use CSV of the current data.
+  String exportTagCsv() => Exporter.toTagCsv(store.allEntries);
+
   ImportResult _merge(ImportResult result) {
     for (final tracker in result.trackers) {
       if (store.trackerFor(tracker.tag) == null) {

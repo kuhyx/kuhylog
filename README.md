@@ -136,13 +136,20 @@ delegating to `bootstrap`, and it is exercised in its own isolated
 
 ```bash
 flutter pub get
-flutter run                 # needs an Android SDK
+flutter run -d android      # needs an Android SDK
+flutter run -d linux        # desktop, for trying the UI without a phone
 ./tool/verify.sh            # format, analyze, test, coverage gate
 ```
 
+Android is the target that matters: the home-screen widget and the
+quick-settings tile are Android-only, and on Linux the quick-capture
+channel simply has no handler, which `QuickCapture.publish` already
+tolerates. The desktop build keeps its own store under the desktop
+documents directory, so it will not show the phone's entries.
+
 ## Quality gates
 
-`tool/verify.sh` runs all four and CI runs the same script:
+`tool/verify.sh` runs all four; CI runs the same gates as separate steps:
 
 | Gate | Setting |
 | --- | --- |

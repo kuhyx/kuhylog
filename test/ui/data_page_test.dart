@@ -66,6 +66,17 @@ void main() {
             .data,
         startsWith('date,a'),
       );
+
+      await tester.tap(find.byKey(const Key('data-export-tag')));
+      await tester.pumpAndSettle();
+      expect(
+        tester
+            .widget<SelectableText>(
+              find.byKey(const Key('data-output')),
+            )
+            .data,
+        startsWith('tag,uses\n#a,1'),
+      );
     });
   });
 }

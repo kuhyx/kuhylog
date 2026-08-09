@@ -7,10 +7,10 @@ import 'package:kuhylog/src/model/tracker.dart';
 import 'package:kuhylog/src/parse/note_tokenizer.dart';
 import 'package:kuhylog/src/stats/aggregate.dart';
 
-/// Writes the three export formats.
+/// Writes the four export formats.
 ///
 /// The JSON backup is the lossless one and is what the backup importer
-/// reads back. The two CSVs are for spreadsheets and for feeding other
+/// reads back. The three CSVs are for spreadsheets and for feeding other
 /// tools; the time-shaped one is lossy by construction because it
 /// discards note text.
 abstract final class Exporter {

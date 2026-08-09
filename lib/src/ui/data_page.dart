@@ -104,6 +104,11 @@ class _DataPageState extends State<DataPage> {
                 onPressed: () => _export(widget.state.exportTimeCsv),
                 child: const Text('Time CSV'),
               ),
+              OutlinedButton(
+                key: const Key('data-export-tag'),
+                onPressed: () => _export(widget.state.exportTagCsv),
+                child: const Text('Tag CSV'),
+              ),
             ],
           ),
           const SizedBox(height: 8),
