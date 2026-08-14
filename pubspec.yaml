@@ -10,6 +10,14 @@ environment:
   sdk: ^3.12.0
 
 dependencies:
+  # The shared palette and scales. This app used to derive its own colours
+  # from a blue seed -- the only one in the fleet doing so.
+  design_system:
+    git:
+      url: https://github.com/kuhyx/utils
+      ref: design_system-v0.1.0
+      path: design_system
+
   flutter:
     sdk: flutter
   path_provider: ^2.1.5
