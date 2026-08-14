@@ -17,7 +17,7 @@ churn, not size alone — refactoring pays where code is read and changed often
 
 ## Scope in this repo
 
-- **2 files** currently exceed 250 lines (of 98 eligible files).
+- **2 files** currently exceed 250 lines (of 102 eligible files).
 - **586 lines** sit in violation; longest file is **301 lines**.
 
 Exempt (do NOT split these):
@@ -34,8 +34,8 @@ has near-zero payoff and should not be first.
 
 | lines | commits/yr | kind | file |
 |------:|-----------:|:-----|:-----|
-| 301 | 0 | code | `lib/src/model/tracker.dart` |
-| 285 | 0 | code | `lib/src/state/app_state.dart` |
+| 301 | 2 | code | `lib/src/model/tracker.dart` |
+| 285 | 2 | code | `lib/src/state/app_state.dart` |
 
 ## How to split
 
