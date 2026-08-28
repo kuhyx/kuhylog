@@ -31,13 +31,11 @@ class TrackView extends StatelessWidget {
   }
 
   void _edit(BuildContext context, Tracker? tracker) {
-    unawaited(
-      Navigator.of(context).push<void>(
-        MaterialPageRoute<void>(
-          builder: (_) => TrackerEditorPage(
-            state: AppScope.of(context),
-            tracker: tracker,
-          ),
+    Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        builder: (_) => TrackerEditorPage(
+          state: AppScope.of(context),
+          tracker: tracker,
         ),
       ),
     );

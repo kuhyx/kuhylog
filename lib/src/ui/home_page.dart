@@ -31,11 +31,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _openData() {
-    unawaited(
-      Navigator.of(context).push<void>(
-        MaterialPageRoute<void>(
-          builder: (_) => DataPage(state: AppScope.of(context)),
-        ),
+    Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        builder: (_) => DataPage(state: AppScope.of(context)),
       ),
     );
   }

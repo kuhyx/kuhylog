@@ -25,6 +25,11 @@ analyzer:
     - android/**
     - build/**
     - coverage/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 linter:
   rules:
