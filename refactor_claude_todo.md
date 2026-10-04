@@ -13,7 +13,7 @@ enforced by a gate that fails the commit, not by a note anyone can ignore.
 Why: a file that cannot be read in one piece forces re-reads and partial edits,
 which is the single largest avoidable cost in an LLM-assisted workflow. Aim by
 churn, not size alone — refactoring pays where code is read and changed often
-(Fowler, *refactoring economic benefit*).
+(Fowler, _refactoring economic benefit_).
 
 ## Scope in this repo
 
@@ -21,6 +21,7 @@ churn, not size alone — refactoring pays where code is read and changed often
 - **586 lines** sit in violation; longest file is **301 lines**.
 
 Exempt (do NOT split these):
+
 - generated files — `*.g.dart`, `*.freezed.dart`, `*.gr.dart`, `**/l10n/generated/**`,
   anything with a `GENERATED` header
 - markup — `.html`, `.css`, `.scss`
@@ -32,10 +33,10 @@ Exempt (do NOT split these):
 ROI = lines x commits in the last year. Work top-down; a long file nobody edits
 has near-zero payoff and should not be first.
 
-| lines | commits/yr | kind | file |
-|------:|-----------:|:-----|:-----|
-| 301 | 2 | code | `lib/src/model/tracker.dart` |
-| 285 | 2 | code | `lib/src/state/app_state.dart` |
+| lines | commits/yr | kind | file                           |
+| ----: | ---------: | :--- | :----------------------------- |
+|   301 |          2 | code | `lib/src/model/tracker.dart`   |
+|   285 |          2 | code | `lib/src/state/app_state.dart` |
 
 ## How to split
 
@@ -58,7 +59,7 @@ an exempt extension, no `# noqa`-style suppressions.
 
 A refactor without a gate silently regrows. Before this task is done:
 
-1. Wire the shared gate `~/utils/scripts/check_file_length.sh` into this repo's
+1. Wire the shared gate `~/src/utils/scripts/check_file_length.sh` into this repo's
    `.pre-commit-config.yaml` as a local hook. If the repo has no pre-commit
    config, add a minimal one.
 2. The hook checks **files in the commit** (not the whole tree), so unrelated
@@ -69,7 +70,7 @@ A refactor without a gate silently regrows. Before this task is done:
 
 ## Done condition
 
-- `bash ~/utils/scripts/check_file_length.sh --all` from this repo root exits 0.
+- `bash ~/src/utils/scripts/check_file_length.sh --all` from this repo root exits 0.
 - The repo's own test suite and coverage bar are still green.
 - `pre-commit run --files <changed files>` passes.
 - A deliberately over-250-line test file, staged, makes `git commit` **fail**.
