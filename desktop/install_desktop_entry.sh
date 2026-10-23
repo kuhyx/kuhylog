@@ -82,7 +82,7 @@ install_desktop_entry() {
     cat > "$DESKTOP_DIR/$ICON_NAME.desktop" <<EOF
 [Desktop Entry]
 Type=Application
-Name=kuhylog
+Name=KuhyLog
 Comment=Local-first life tracker
 Exec=$LAUNCH_CMD
 Icon=$ICON_NAME
