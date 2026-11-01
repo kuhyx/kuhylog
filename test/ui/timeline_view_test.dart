@@ -27,6 +27,12 @@ void main() {
       );
       expect(find.text('2026-08-08'), findsOneWidget);
       expect(find.text('2026-08-07'), findsOneWidget);
+      expect(find.text('#b banana'), findsOneWidget);
+      expect(find.text('#a apple'), findsNothing);
+      await tester.tap(find.byKey(const Key('timeline-day-1')));
+      await tester.pumpAndSettle();
+      expect(find.text('#a apple'), findsOneWidget);
+      expect(find.text('#b banana'), findsNothing);
     });
 
     testWidgets('search filters the list', (tester) async {
@@ -55,6 +61,8 @@ void main() {
         state,
         const Scaffold(body: TimelineView()),
       );
+      await tester.tap(find.byKey(Key('entry-cell-${entry.id}')));
+      await tester.pumpAndSettle();
       await tester.tap(find.byKey(Key('entry-delete-${entry.id}')));
       await tester.pumpAndSettle();
       expect(state.store.allEntries, isEmpty);

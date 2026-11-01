@@ -33,8 +33,6 @@ class TrackerButton extends StatelessWidget {
       onLongPress: onLongPress,
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        width: 104,
-        height: 104,
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),

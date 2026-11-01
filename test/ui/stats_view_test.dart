@@ -8,6 +8,11 @@ import 'package:kuhylog/src/ui/stats_view.dart';
 
 import 'harness.dart';
 
+Future<void> openInsights(WidgetTester tester) async {
+  await tester.tap(find.byKey(const Key('stats-insights-tile')));
+  await tester.pumpAndSettle();
+}
+
 void main() {
   group('StatsView', () {
     testWidgets('says so when there is no data', (tester) async {
@@ -46,6 +51,7 @@ void main() {
         state,
         const Scaffold(body: StatsView()),
       );
+      await openInsights(tester);
       expect(find.byKey(const Key('stats-no-insights')), findsOneWidget);
     });
 
@@ -69,10 +75,7 @@ void main() {
         state,
         const Scaffold(body: StatsView()),
       );
-      await tester.scrollUntilVisible(
-        find.byKey(const Key('insight-sleep-mood-0')),
-        200,
-      );
+      await openInsights(tester);
       expect(find.byKey(const Key('insight-sleep-mood-0')), findsOneWidget);
       expect(find.textContaining('survives correction'), findsWidgets);
     });
@@ -98,10 +101,7 @@ void main() {
         state,
         const Scaffold(body: StatsView()),
       );
-      await tester.scrollUntilVisible(
-        find.byKey(const Key('insight-sleep-mood-0')),
-        200,
-      );
+      await openInsights(tester);
       expect(
         find.descendant(
           of: find.byKey(const Key('insight-sleep-mood-0')),
@@ -109,6 +109,22 @@ void main() {
         ),
         findsOneWidget,
       );
+    });
+
+    testWidgets('a range chip narrows the window', (tester) async {
+      final state = buildState()
+        ..saveTracker(const Tracker(tag: 'gym', label: 'Gym', positivity: 5))
+        ..record('#gym', at: testNow.subtract(const Duration(days: 20)))
+        ..record('#gym', at: testNow);
+      await pumpScoped(
+        tester,
+        state,
+        const Scaffold(body: StatsView()),
+      );
+      expect(find.text('2 entries, 100% positive'), findsOneWidget);
+      await tester.tap(find.byKey(const Key('stats-range-7')));
+      await tester.pumpAndSettle();
+      expect(find.text('1 entries, 100% positive'), findsOneWidget);
     });
   });
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:kuhylog/src/model/board.dart';
 import 'package:kuhylog/src/model/log_entry.dart';
@@ -51,46 +52,55 @@ class TrackView extends StatelessWidget {
       children: <Widget>[
         SizedBox(
           height: 56,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Row(
             children: <Widget>[
-              for (final board in state.boards)
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 4,
-                    vertical: 8,
-                  ),
-                  child: ChoiceChip(
-                    key: Key('board-chip-${board.id}'),
-                    label: Text(board.label),
-                    selected: board.id == state.selectedBoardId,
-                    onSelected: (_) => state.selectBoard(board.id),
-                  ),
+              Expanded(
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  children: <Widget>[
+                    for (final board in state.boards)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 8,
+                        ),
+                        child: ChoiceChip(
+                          key: Key('board-chip-${board.id}'),
+                          label: Text(board.label),
+                          selected: board.id == state.selectedBoardId,
+                          onSelected: (_) => state.selectBoard(board.id),
+                        ),
+                      ),
+                  ],
                 ),
+              ),
+              IconButton(
+                key: const Key('tracker-add-button'),
+                icon: const Icon(Icons.add),
+                tooltip: 'New tracker',
+                onPressed: () => _edit(context, null),
+              ),
             ],
           ),
         ),
         Expanded(
           child: trackers.isEmpty
               ? _empty(context)
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(12),
-                  child: Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
-                    children: <Widget>[
-                      for (final tracker in trackers)
-                        TrackerButton(
-                          key: Key('tracker-button-${tracker.tag}'),
-                          tracker: tracker,
-                          todayValue: _todayValue(tracker, today),
-                          onTap: () => _record(context, tracker),
-                          onLongPress: () => _edit(context, tracker),
-                        ),
-                      _addButton(context),
-                    ],
-                  ),
+              : FitGrid(
+                  itemCount: trackers.length,
+                  minSquare: 0.8,
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  itemBuilder: (context, index) {
+                    final tracker = trackers[index];
+                    return TrackerButton(
+                      key: Key('tracker-button-${tracker.tag}'),
+                      tracker: tracker,
+                      todayValue: _todayValue(tracker, today),
+                      onTap: () => _record(context, tracker),
+                      onLongPress: () => _edit(context, tracker),
+                    );
+                  },
                 ),
         ),
       ],
@@ -103,18 +113,6 @@ class TrackView extends StatelessWidget {
       return null;
     }
     return values.values.first;
-  }
-
-  Widget _addButton(BuildContext context) {
-    return SizedBox(
-      width: 104,
-      height: 104,
-      child: OutlinedButton(
-        key: const Key('tracker-add-button'),
-        onPressed: () => _edit(context, null),
-        child: const Icon(Icons.add),
-      ),
-    );
   }
 
   Widget _empty(BuildContext context) {

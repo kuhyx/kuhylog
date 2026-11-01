@@ -62,9 +62,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _index,
-        children: const <Widget>[TrackView(), TimelineView(), StatsView()],
+      // The strip under the views is where the capture button floats, so it
+      // never covers a tile.
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 72),
+        child: IndexedStack(
+          index: _index,
+          children: const <Widget>[TrackView(), TimelineView(), StatsView()],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         key: const Key('home-capture-button'),
